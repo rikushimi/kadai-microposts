@@ -8,11 +8,7 @@ use App\User;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
      public function index()
     {
         $users = User::paginate(10);
@@ -121,6 +117,21 @@ class UsersController extends Controller
         $data += $this->counts($user);
 
         return view('users.followers', $data);
-}
+    }
+    
+        public function favoriter ($id)
+    {
+        $user = User::find($id);
+        $favoriters = $user->favoriter()->paginate(10);
 
-}
+        $data = [
+            'user' => $user,
+            'microposts' => $favoriters,
+        ];
+
+        $data += $this->counts($user);
+
+        return view('users.favorites', $data);
+    }
+
+} 
